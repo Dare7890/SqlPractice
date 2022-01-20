@@ -1,0 +1,11 @@
+Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
+
+SELECT (SELECT maker
+        FROM Product
+        WHERE model = Laptop.model), speed
+FROM Laptop
+WHERE hd >= 10
+
+SELECT *
+FROM Product, Laptop 
+WHERE Laptop.hd >= 10 AND type = 'laptop'
