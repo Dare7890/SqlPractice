@@ -1,0 +1,45 @@
+Перечислите номера моделей любых типов, имеющих самую высокую цену по всей имеющейся в базе данных продукции.
+
+1) SELECT model
+FROM (SELECT model, MAX(price) AS Price
+FROM PC
+GROUP BY model
+UNION
+SELECT model, MAX(price) AS Price
+FROM Laptop
+GROUP BY model
+UNION
+SELECT model, MAX(price) AS Price
+FROM Printer
+GROUP BY model) AS AllModels
+WHERE Price = (SELECT MAX(Price)
+		FROM (SELECT model, MAX(price) AS Price
+		FROM PC
+		GROUP BY model
+		UNION
+		SELECT model, MAX(price) AS Price
+		FROM Laptop
+		GROUP BY model
+		UNION
+		SELECT model, MAX(price) AS Price
+		FROM Printer
+		GROUP BY model) AS AllModels)
+
+2) При помощи CTE
+WITH AllModels(model, price)
+AS
+(SELECT model, MAX(price) AS Price
+FROM PC
+GROUP BY model
+UNION
+SELECT model, MAX(price) AS Price
+FROM Laptop
+GROUP BY model
+UNION
+SELECT model, MAX(price) AS Price
+FROM Printer
+GROUP BY model)
+SELECT DISTINCT model
+FROM AllModels
+WHERE price = (SELECT MAX(price)
+		FROM AllModels)
