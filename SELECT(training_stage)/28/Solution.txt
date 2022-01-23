@@ -1,0 +1,8 @@
+Используя таблицу Product, определить количество производителей, выпускающих по одной модели.
+
+SELECT COUNT(DISTINCT maker)
+FROM Product
+WHERE maker IN (SELECT maker
+		FROM Product
+		GROUP BY maker
+		HAVING COUNT(DISTINCT model) = 1)
